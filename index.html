@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AHA Nutrition Helper</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", sans-serif;
+      background-color: #fcefe8;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      font-family: Georgia, serif;
+      font-size: 1.8rem;
+      text-align: center;
+      color: #222;
+    }
+    label, .section-title {
+      font-weight: bold;
+      display: block;
+      margin-top: 1.2rem;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 0.6rem;
+      font-size: 1rem;
+      margin-top: 0.3rem;
+      text-align: center;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      margin-right: 1rem;
+      cursor: pointer;
+    }
+    .result-block {
+      background-color: #fff8f3;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    }
+    .disclaimer {
+      font-size: 0.75rem;
+      color: #555;
+      margin-top: 2rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Daily Nutrition Guidelines</h1>
+
+  <label for="calories">How many calories do you eat each day?</label>
+  <input type="number" id="calories" placeholder="e.g. 2000" />
+
+  <div>
+    <button onclick="calculateNutrition()">Show My Recommendations</button>
+    <button onclick="resetFields()">Clear</button>
+    <button onclick="copyResults()">Copy to Clipboard</button>
+    <button onclick="window.open('https://www.heart.org/en/healthy-living/healthy-eating/eat-smart')">More Tips from AHA</button>
+  </div>
+
+  <div class="result-block" id="limits">
+    <div class="section-title">Recommended Daily Limits</div>
+    <div id="satFat"></div>
+    <div id="sugar"></div>
+  </div>
+
+  <div class="result-block" id="goals">
+    <div class="section-title">Recommended Daily Goals</div>
+    <div id="fiber"></div>
+  </div>
+
+  <div class="disclaimer">
+    Disclaimer: This tool is not affiliated with or endorsed by the American Heart Association. Based on publicly available information from heart.org.
+  </div>
+
+  <script>
+    function sugarToTsp(g) { return (g / 4).toFixed(1); }
+    function fatToTbsp(g) { return (g / 13.6).toFixed(1); }
+    function fiberToApples(g) { return (g / 4.4).toFixed(1); }
+
+    function calculateNutrition() {
+      const cal = parseFloat(document.getElementById("calories").value);
+      if (isNaN(cal) || cal <= 0) {
+        alert("Please enter a valid, positive number.");
+        return;
+      }
+      const satFat = (0.06 * cal) / 9;
+      const sugar = (0.10 * cal) / 4;
+      const fiber = (14 * cal) / 1000;
+
+      document.getElementById("satFat").textContent = `Saturated Fat: ${satFat.toFixed(1)} g (~${fatToTbsp(satFat)} tbsp butter)`;
+      document.getElementById("sugar").textContent = `Added Sugars: ${sugar.toFixed(1)} g (~${sugarToTsp(sugar)} tsp sugar)`;
+      document.getElementById("fiber").textContent = `Fiber: ${fiber.toFixed(1)} g (~${fiberToApples(fiber)} apples)`;
+    }
+
+    function resetFields() {
+      document.getElementById("calories").value = "";
+      document.getElementById("satFat").textContent = "";
+      document.getElementById("sugar").textContent = "";
+      document.getElementById("fiber").textContent = "";
+    }
+
+    function copyResults() {
+      const satFat = document.getElementById("satFat").textContent;
+      const sugar = document.getElementById("sugar").textContent;
+      const fiber = document.getElementById("fiber").textContent;
+      const text = `Recommended Daily Limits:
+${satFat}
+${sugar}
+
+Recommended Daily Goals:
+${fiber}`;
+      navigator.clipboard.writeText(text.trim()).then(() => {
+        alert("Your recommendations have been copied.");
+      });
+    }
+  </script>
+</body>
+</html>
