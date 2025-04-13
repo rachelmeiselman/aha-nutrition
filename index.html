@@ -122,6 +122,12 @@ ${fiber}`;
         alert("Your recommendations have been copied.");
       });
     }
+  
+document.getElementById("calories").addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    calculateNutrition();
+  }
+});
   </script>
 </body>
 </html>
