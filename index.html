@@ -51,6 +51,17 @@
       margin-top: 2rem;
       text-align: center;
     }
+    /* Remove spinner arrows in number inputs (Chrome, Safari, Edge) */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Remove spinner arrows in Firefox */
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
     #presetCalories {
       padding: 0.6rem;
       font-size: 1rem;
