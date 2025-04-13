@@ -51,13 +51,25 @@
       margin-top: 2rem;
       text-align: center;
     }
+    #presetCalories {
+      padding: 0.6rem;
+      font-size: 1rem;
+    }
   </style>
 </head>
 <body>
   <h1>Daily Nutrition Guidelines</h1>
 
   <label for="calories">How many calories do you eat each day?</label>
-  <input type="number" id="calories" placeholder="e.g. 2000" />
+  <div style="display: flex; gap: 0.5rem; align-items: center;">
+    <input type="number" id="calories" placeholder="e.g. 2000" />
+    <select id="presetCalories" onchange="setPresetCalories()">
+      <option value="">Pick a preset</option>
+      <option value="1800">1800 (Sedentary)</option>
+      <option value="2000">2000 (Typical)</option>
+      <option value="2200">2200 (Active)</option>
+    </select>
+  </div>
 
   <div>
     <button onclick="calculateNutrition()">Show My Recommendations</button>
@@ -121,6 +133,12 @@ ${fiber}`;
       navigator.clipboard.writeText(text.trim()).then(() => {
         alert("Your recommendations have been copied.");
       });
+    }
+
+    function setPresetCalories() {
+      const preset = document.getElementById("presetCalories").value;
+      document.getElementById("calories").value = preset;
+      calculateNutrition(); // Optional: auto-calculate on selection
     }
   
 document.getElementById("calories").addEventListener("keypress", function (e) {
